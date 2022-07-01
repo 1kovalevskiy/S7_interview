@@ -55,5 +55,5 @@ pip install -r requirements.txt
 
 Запустить проект:
 ```
-main.py
+python3 main.py
 ```
