@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, Date, Text
 from sqlalchemy.orm import Session, declared_attr, declarative_base
 
+from service.logging import log
 from service.schema import FlightDBScheme
 
 
@@ -17,21 +18,23 @@ Base = declarative_base(cls=Base)
 
 
 class Flight(Base):
-    file_name = Column(Text)
-    flt = Column(Integer)
-    depdate = Column(Date)
-    dep = Column(Text)
+    file_name = Column(Text, nullable=False)
+    flt = Column(Integer, nullable=False)
+    depdate = Column(Date, nullable=False)
+    dep = Column(Text, nullable=False)
 
     def __repr__(self):
         return f'{self.flt} {self.dep} {self.depdate}'
 
 
+@log("Сессия с БД установлена")
 def database_start():
     engine = create_engine('sqlite:///sqlite.db', echo=False)
     Base.metadata.create_all(engine)
     return Session(engine)
 
 
+@log("Данные записаны в БД")
 def write_to_db(
         session: Session,
         data: FlightDBScheme

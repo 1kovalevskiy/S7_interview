@@ -10,9 +10,14 @@ from service.handler import (
     get_data_from_filename, get_persons_data_from_csv,
     write_output_data_to_json_file
 )
+from service.logging import get_logger, log
 from service.schema import FlightScheme, FlightDBScheme
 
 
+logger = get_logger(__name__)
+
+
+@log("файл обработан")
 def process_the_file(
         csv_path: str,
         session: Session
@@ -33,6 +38,8 @@ def process_the_file(
         move_file_to_ok_folder(csv_path)
     except ValidationError:
         move_file_to_err_folder(csv_path)
+    except ValueError:
+        move_file_to_err_folder(csv_path)
 
 
 def main():
@@ -41,6 +48,7 @@ def main():
         csv_files = get_csv_filenames_in_in_folder()
         if len(csv_files) == 0:
             continue
+            # break
         process_the_file(csv_files[0], session)
 
 
