@@ -52,6 +52,9 @@ def write_output_data_to_json_file(
 ) -> None:
     """Записывает json в одну строку"""
     file_path = join(OUT_PATH, os.path.splitext(csv_path)[0] + '.json')
+    is_exist = os.path.exists(OUT_PATH)
+    if not is_exist:
+        os.makedirs(OUT_PATH)
     with open(file_path, 'w') as j:
         j.write(data.json())
 
@@ -63,6 +66,9 @@ def write_pretty_output_data_to_json_file(
 ) -> None:
     """Записывает json красиво и удобно для прочтения людьми"""
     file_path = join(OUT_PATH, os.path.splitext(csv_path)[0] + '.json')
+    is_exist = os.path.exists(OUT_PATH)
+    if not is_exist:
+        os.makedirs(OUT_PATH)
     with open(file_path, 'w') as j:
         json_data = data.dict()
         json.dump(json_data, j, indent=4)

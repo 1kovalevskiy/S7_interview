@@ -8,11 +8,17 @@ from service.logging import log
 
 @log("Файл перенесен в папку OK")
 def move_file_to_ok_folder(csv_path: str) -> None:
+    is_exist = os.path.exists(OK_PATH)
+    if not is_exist:
+        os.makedirs(OK_PATH)
     os.replace(join(IN_PATH, csv_path), join(OK_PATH, csv_path))
 
 
 @log("Файл перенесен в папку ERR")
 def move_file_to_err_folder(csv_path: str) -> None:
+    is_exist = os.path.exists(ERR_PATH)
+    if not is_exist:
+        os.makedirs(ERR_PATH)
     os.replace(join(IN_PATH, csv_path), join(ERR_PATH, csv_path))
 
 
