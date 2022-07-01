@@ -28,7 +28,7 @@ class Flight(Base):
 
 
 @log("Сессия с БД установлена")
-def database_start():
+def database_start() -> Session:
     engine = create_engine('sqlite:///sqlite.db', echo=False)
     Base.metadata.create_all(engine)
     return Session(engine)
@@ -38,7 +38,7 @@ def database_start():
 def write_to_db(
         session: Session,
         data: FlightDBScheme
-):
+) -> None:
     flight = Flight(**data.dict())
     session.add(flight)
     session.commit()

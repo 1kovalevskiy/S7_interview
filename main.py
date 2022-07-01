@@ -8,7 +8,7 @@ from service.file import (
 )
 from service.handler import (
     get_data_from_filename, get_persons_data_from_csv,
-    write_output_data_to_json_file
+    write_pretty_output_data_to_json_file
 )
 from service.logging import get_logger, log
 from service.schema import FlightScheme, FlightDBScheme
@@ -29,7 +29,7 @@ def process_the_file(
             flt=flight_data.flt, dep=flight_data.dep,
             date=flight_data.dt.isoformat(), prl=persons
         )
-        write_output_data_to_json_file(data=response, csv_path=csv_path)
+        write_pretty_output_data_to_json_file(data=response, csv_path=csv_path)
         data_for_db = FlightDBScheme(
             file_name=csv_path, flt=flight_data.flt, depdate=flight_data.dt,
             dep=flight_data.dep
@@ -48,7 +48,6 @@ def main():
         csv_files = get_csv_filenames_in_in_folder()
         if len(csv_files) == 0:
             continue
-            # break
         process_the_file(csv_files[0], session)
 
 
